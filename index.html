@@ -1,0 +1,116 @@
+<html>
+
+<head>
+<script src="./scripts/widgetReader.js"></script>
+<link rel="stylesheet" type="text/css" href="./css/widgetReader.css">
+<title>ACME Widget Reader</title>
+</head>
+<script>
+	function runThisOnLoad() {
+
+		document.getElementById("iPlanetDirectoryProCookieValue").innerHTML = getOpenAMCookie().substring(0,60) + "...";
+		document.getElementById("iPlanetDirectoryProCookieValid").innerHTML = checkOpenAMCookie();
+
+	}
+	
+	//Used to get authz code and update page
+	function callGetAuthorizationCode() {
+		
+		document.getElementById("authorizationCode").innerHTML = getAuthorizationCode();
+		
+	}
+	
+	//Used to exchange authZ code for access token
+	function callGetAccessToken(){
+		
+		document.getElementById("accessToken").innerHTML = getAccessToken();
+		
+	}
+	
+	//Uses Access Token to get scope values
+	function callGetScopeData() {
+		
+		widgetId = getScopeData();
+		document.getElementById("scopeData").innerHTML = widgetId;
+		document.getElementById("widgetData").innerHTML = getWidgetData(widgetId);
+		
+	}
+	
+</script>
+
+<body onload="runThisOnLoad();">
+
+	<table>
+		<tr>
+			<td><img alt="ACME myWidgets" src="./images/logo.png"
+				align="middle"></td>
+			<td>
+				<div id="cookieInfo">
+					<table>
+						<tr>
+							<td><b>OpenAM Cookie:</b></td>
+							<td id="iPlanetDirectoryProCookieValue" style="color: blue"></td>
+						</tr>
+						<tr>
+							<td><b>Cookie Validity:</b></td>
+							<font color="red">
+								<td id="iPlanetDirectoryProCookieValid" style="color: red"></td>
+							</font>
+						</tr>
+					</table>
+				</div>
+			</td>
+			<td><img src="./images/openam-logo.png" alt="OpenAM"
+				height="30px" width="110px" /></td>
+			<td id="openAMLink"></td>
+		</tr>
+	</table>
+
+	<div id="OAuth2Flow">
+	
+		<a href="#" onclick="callGetAuthorizationCode()">Get OAuth2 Authz Code for the ACME Widget Reader application</a>
+		<br/>
+		<br/>
+		<b>OAuth2 Authorization Code from OpenAM: </b><span id="authorizationCode" style="color: red"></span>
+		<br/>
+		<br/>
+		<a href="#" onclick="callGetAccessToken()">Exchange OAuth2 AuthZ Code for Bearer Token</a>
+		<br/>
+		<br/>
+		<b>OAuth2 Bearer Token (access and refresh): </b><span id="accessToken" style="color: red"></span>
+		<br/>
+		<br/>
+		<a href="#" onclick="callGetScopeData()">Exchange the Access Token for the WidgetId of this user</a>
+		<br/>
+		<br/>
+		<b>Users Linked WidgetId: </b><span id="scopeData" style="color: red"></span>
+		<br/>
+		<br/>
+	</div>
+	
+	<br/>
+	<div id="widgetView">
+		<center>
+			<font size=6 color=red>Widget Reader</font>
+			
+			<table>
+					<tr class="header">
+						<td>Description</td>
+						<td>Height</td>
+						<td>Width</td>
+						<td>Length</td>
+						<td></td>
+					</tr>
+					<tr id="widgetData"></tr>	
+			</table>
+			
+		</center>
+	</div>
+	
+	<br/>
+	<font size="2">ACME Widget Reader.  OAuth2 Flow Demo - Simon Moffatt 2014</font>
+	
+</body>
+
+
+</html>
