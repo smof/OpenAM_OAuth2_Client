@@ -36,6 +36,13 @@
 		
 	}
 	
+	//Renews access token based on previous refesh token
+	function callRefreshAccessToken(){
+		
+		document.getElementById("accessToken").innerHTML = refreshAccessToken();
+		
+	}
+	
 </script>
 
 <body onload="runThisOnLoad();">
@@ -68,31 +75,39 @@
 
 	<div id="OAuth2Flow">
 	
-		<a href="#" onclick="callGetAuthorizationCode()">Get OAuth2 Authz Code for the ACME Widget Reader application</a>
-		<br/>
-		<br/>
-		<b>OAuth2 Authorization Code from OpenAM: </b><span id="authorizationCode" style="color: red"></span>
-		<br/>
-		<br/>
-		<a href="#" onclick="callGetAccessToken()">Exchange OAuth2 AuthZ Code for Bearer Token</a>
-		<br/>
-		<br/>
-		<b>OAuth2 Bearer Token (access and refresh): </b><span id="accessToken" style="color: red"></span>
-		<br/>
-		<br/>
-		<a href="#" onclick="callGetScopeData()">Exchange the Access Token for the WidgetId of this user</a>
-		<br/>
-		<br/>
-		<b>Users Linked WidgetId: </b><span id="scopeData" style="color: red"></span>
-		<br/>
-		<br/>
+		<table>
+			<tr>
+				<td><a href="#" onclick="callGetAuthorizationCode()">Get OAuth2 Authz Code for this application</a></td>
+				<td><a href="#" onclick="callGetAccessToken()">Exchange OAuth2 AuthZ Code for Bearer Token</a></td>
+				<td><a href="#" onclick="callRefreshAccessToken()">Refresh Expired Access Token</a></td>		
+			</tr>
+			<tr>
+				<td><b>OAuth2 Authorization Code from OpenAM: </b></td>		
+				<td><b>OAuth2 Bearer Token (access and refresh): </b></td>
+			</tr>	
+			<tr>
+				<td><span id="authorizationCode" style="color: red"></span></td>
+				<td><span id="accessToken" style="color: red"></span></td>
+			
+			</tr>
+			<tr>
+				<td><a href="#" onclick="callGetScopeData()">Use Access Token to retrieve WidgetId</a></td>
+			</tr>
+		</table>
+		
+		
+		
 	</div>
 	
 	<br/>
+	
 	<div id="widgetView">
 		<center>
 			<font size=6 color=red>Widget Reader</font>
-			
+			<br/>
+			<br/>
+			<b>WidgetId: </b><span id="scopeData" style="color: red"></span>
+			<br/>		
 			<table>
 					<tr class="header">
 						<td>Description</td>

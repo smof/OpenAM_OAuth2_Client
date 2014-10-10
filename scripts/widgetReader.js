@@ -164,5 +164,29 @@ function getWidgetData(widgetId) {
 	return widgetData;
 }
 
+
+//Uses previously received Bearer token, to take the refresh token and renew the access token
+function refreshAccessToken(){
+	
+	//OAuth2 variables
+	url="/openam/oauth2/access_token";
+	base64Credentials = "bXlXaWRnZXRzOlBhc3N3MHJk"; //The base64 encoded OAuth2 ClientId and Client Password 
+	payload = "grant_type=refresh_token&refresh_token=" + OAuth2AccessToken["refresh_token"]
+	
+	//Build HTTP request
+	var xmlHttp = null;
+	xmlHttp = new XMLHttpRequest();
+	xmlHttp.open( "POST", url, false );
+	xmlHttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+	xmlHttp.setRequestHeader("Authorization","Basic " + base64Credentials);
+	xmlHttp.send(payload);
+
+	//Gather and parse bearer token response
+	OAuth2AccessToken = JSON.parse(xmlHttp.responseText); //This is just populating global variable so available elsewhere
+	
+	return JSON.stringify(OAuth2AccessToken);
+	
+}
+
 	
 	
